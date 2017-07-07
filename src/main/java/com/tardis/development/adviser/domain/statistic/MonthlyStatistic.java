@@ -1,4 +1,4 @@
-package com.tardis.development.adviser.domain.advising;
+package com.tardis.development.adviser.domain.statistic;
 
 import com.tardis.development.adviser.domain.transaction.TransactionDTO;
 import com.tardis.development.adviser.domain.transaction.Type;

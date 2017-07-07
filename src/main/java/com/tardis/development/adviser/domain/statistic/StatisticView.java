@@ -1,4 +1,4 @@
-package com.tardis.development.adviser.domain.advising;
+package com.tardis.development.adviser.domain.statistic;
 
 import lombok.AllArgsConstructor;
 import lombok.Value;
@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 
 @Value
 @AllArgsConstructor(staticName = "of")
-public class UserAdvice {
+public class StatisticView {
     private final BigDecimal averageReminder;
 
     private final BigDecimal lastReminder;

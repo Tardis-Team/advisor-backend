@@ -1,4 +1,4 @@
-package com.tardis.development.adviser.domain.advising;
+package com.tardis.development.adviser.domain.statistic;
 
 import com.tardis.development.adviser.domain.transaction.TransactionDTO;
 import reactor.core.publisher.Flux;
@@ -6,7 +6,6 @@ import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
@@ -37,44 +36,14 @@ final class Operators {
                 .map(args -> PeriodStatistic.of((int) args[0], (BigDecimal) args[1], (BigDecimal) args[2]));
     }
 
-    static Configuration updateConfiguration(Object[] args) {
-        Configuration configuration = (Configuration) args[0];
-        ConfigurationDTO dto = (ConfigurationDTO) args[1];
-        Configuration updated = transformToConfiguration(configuration.getUser(), dto);
-
-        updated.setId(configuration.getId());
-
-        return updated;
-    }
-
-    static ConfigurationDTO transformToConfigurationDTO(Configuration configuration) {
-        return ConfigurationDTO.of(
-                configuration.getSavingsAmount(),
-                configuration.getFrom(),
-                configuration.getTo()
-        );
-    }
-
-    static Configuration transformToConfiguration(String user, ConfigurationDTO configuration) {
-        return new Configuration(
-                user,
-                configuration.getSavingsAmount(),
-                configuration.getFrom(),
-                configuration.getTo()
-        );
-    }
-
     @SuppressWarnings("unchecked")
-    static UserAdvice combineUserAdvice(Object[] args) {
+    static StatisticView combineUserAdvice(Object[] args) {
         PeriodStatistic periodStatistic = (PeriodStatistic) args[0];
         BigDecimal lastReminder = (BigDecimal) args[1];
         BigDecimal plannedReminder = ((BigDecimal) args[2]).subtract(periodStatistic.getTotalAverageSpending());
-        Optional<Configuration> userConfiguration = (Optional<Configuration>) args[3];
-        BigDecimal saveToSpend = userConfiguration.isPresent()
-                ? plannedReminder.subtract(userConfiguration.get().getMonthlySavingsAmount())
-                : plannedReminder;
+        BigDecimal saveToSpend = BigDecimal.ZERO;
 
-        return UserAdvice.of(
+        return StatisticView.of(
                 periodStatistic.getTotalAverageReminder(),
                 lastReminder,
                 plannedReminder,

@@ -1,4 +1,4 @@
-package com.tardis.development.adviser.domain.advising;
+package com.tardis.development.adviser.domain.statistic;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
