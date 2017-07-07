@@ -8,3 +8,5 @@ spring:
   data:
     mongodb:
       uri: ${MONGO_URI}
+server:
+  port: ${PORT:8080}
