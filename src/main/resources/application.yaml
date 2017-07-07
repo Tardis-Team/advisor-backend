@@ -1,0 +1,10 @@
+logging:
+  level:
+    org.springframework.data.mongodb: DEBUG
+
+---
+spring:
+  profiles: heroku
+  data:
+    mongodb:
+      uri: mongodb://tardis:Shadowgun21027#@tardis-shard-00-00-3zfvb.mongodb.net:27017,tardis-shard-00-01-3zfvb.mongodb.net:27017,tardis-shard-00-02-3zfvb.mongodb.net:27017/tardis?ssl=true&replicaSet=Tardis-shard-0&authSource=admin

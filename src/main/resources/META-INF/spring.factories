@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.tardis.development.adviser.domain.user.ExcelUsersImportConfiguration,\
+com.tardis.development.adviser.domain.transaction.ExcelTransactionsImportConfiguration
