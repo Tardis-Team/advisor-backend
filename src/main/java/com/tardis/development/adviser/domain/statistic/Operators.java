@@ -39,12 +39,18 @@ final class Operators {
     @SuppressWarnings("unchecked")
     static StatisticView combineUserAdvice(Object[] args) {
         PeriodStatistic periodStatistic = (PeriodStatistic) args[0];
+        BigDecimal totalAverageReminder = periodStatistic.getTotalAverageReminder();
         BigDecimal lastReminder = (BigDecimal) args[1];
         BigDecimal plannedReminder = ((BigDecimal) args[2]).subtract(periodStatistic.getTotalAverageSpending());
-        BigDecimal saveToSpend = BigDecimal.ZERO;
+        BigDecimal saveToSpend = plannedReminder.compareTo(totalAverageReminder) > 0
+                ? totalAverageReminder
+                .subtract(plannedReminder)
+                .divide(BigDecimal.valueOf(2), BigDecimal.ROUND_CEILING)
+                .add(periodStatistic.getTotalAverageReminder())
+                : plannedReminder;
 
         return StatisticView.of(
-                periodStatistic.getTotalAverageReminder(),
+                totalAverageReminder,
                 lastReminder,
                 plannedReminder,
                 saveToSpend

@@ -19,8 +19,8 @@ class DefaultTransactionService implements TransactionService {
         return repository
                 .findAllByUserAndDateBetweenOrderByDateDesc(
                         username,
-                        LocalDate.now().minusMonths(6).withDayOfMonth(1),
-                        LocalDate.now().minusMonths(6).withDayOfMonth(1)
+                        LocalDate.now().minusMonths(6).withDayOfMonth(1).minusDays(1),
+                        LocalDate.now().withDayOfMonth(1).minusDays(1)
                 )
                 .map(Operators::transformToDTO);
     }
@@ -50,7 +50,7 @@ class DefaultTransactionService implements TransactionService {
     @Override
     public Flux<TransactionDTO> listAll(String username) {
         return repository
-                .findAllByUser(username)
+                .findAllByUserAndDateAfter(username, LocalDate.now().minusDays(1))
                 .map(Operators::transformToDTO);
     }
 

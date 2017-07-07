@@ -11,7 +11,7 @@ import java.time.LocalDate;
 interface TransactionRepository extends ReactiveMongoRepository<Transaction, String> {
 
     @Tailable
-    Flux<Transaction> findAllByUser(String user);
+    Flux<Transaction> findAllByUserAndDateAfter(String user, LocalDate date);
 
     Flux<Transaction> findAllByUserAndDateBetweenOrderByDateDesc(String user, LocalDate start, LocalDate end);
 

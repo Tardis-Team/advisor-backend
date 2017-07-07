@@ -12,7 +12,7 @@ public class StatisticView {
 
     private final BigDecimal lastReminder;
 
-    private final BigDecimal plannedReminder;
+    private final BigDecimal rawLeftover;
 
     private final BigDecimal saveToSpendAmount;
 }
