@@ -16,7 +16,6 @@ import org.springframework.core.io.Resource;
 public class ExcelTransactionsImportConfiguration {
 
     @Bean
-    @Profile("heroku")
     @Order
     public CommandLineRunner transactionsCommandLineRunner(ApplicationContext context,
                                                            TransactionRepository repository,
