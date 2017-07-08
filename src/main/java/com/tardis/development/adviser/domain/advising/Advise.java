@@ -18,6 +18,7 @@ class Advise {
     private String id;
 
     private final @NonNull Set<Integer> forMCCs;
+    private final @NonNull Type type;
     private final @NonNull String category;
     private final @NonNull String description;
     private final @NonNull String imageLink;
