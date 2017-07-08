@@ -15,6 +15,14 @@ final class Operators {
         );
     }
 
+    static TransactionDTO transformToDTO(CappedTransaction transaction) {
+        return TransactionDTO.of(
+                transaction.getDate(),
+                transaction.getType(),
+                transaction.getAmount(),
+                transaction.getCategoryCode()
+        );
+    }
 
     static Transaction transformToDomain(String user, TransactionDTO transaction) {
         return new Transaction(
@@ -25,4 +33,26 @@ final class Operators {
                 transaction.getCategoryCode()
         );
     }
+
+    static Transaction transformToDomain(ExcelTransactionDTO transaction) {
+        return new Transaction(
+                transaction.getUser(),
+                transaction.getDate(),
+                transaction.getType(),
+                transaction.getAmount(),
+                transaction.getCategoryCode()
+        );
+    }
+
+
+    static CappedTransaction transformToCapped(Transaction transaction) {
+        return new CappedTransaction(
+                transaction.getUser(),
+                transaction.getDate(),
+                transaction.getType(),
+                transaction.getAmount(),
+                transaction.getCategoryCode()
+        );
+    }
+
 }

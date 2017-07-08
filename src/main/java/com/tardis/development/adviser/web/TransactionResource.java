@@ -16,13 +16,19 @@ public class TransactionResource {
 
     private final @NonNull TransactionService service;
 
-    @GetMapping(value = "/", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    @GetMapping(produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<TransactionDTO> list(@PathVariable("username") String username) {
 
         return service.listAll(username);
     }
 
-    @PostMapping("/")
+    @GetMapping("/upcoming")
+    public Flux<TransactionDTO> listUpcoming(@PathVariable("username") String username) {
+
+        return service.listAllUpcoming(username);
+    }
+
+    @PostMapping
     public Mono<Void> add(@PathVariable("username") String username,
                           @RequestBody Mono<TransactionDTO> body) {
 

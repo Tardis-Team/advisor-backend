@@ -10,6 +10,8 @@ import java.math.BigDecimal;
 public class StatisticView {
     private final BigDecimal averageReminder;
 
+    private final BigDecimal averageSpending;
+
     private final BigDecimal lastReminder;
 
     private final BigDecimal rawLeftover;

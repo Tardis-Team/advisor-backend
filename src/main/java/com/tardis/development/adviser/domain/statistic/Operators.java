@@ -18,39 +18,29 @@ final class Operators {
     static Mono<PeriodStatistic> combineStatistics(Flux<MonthlyStatistic> source) {
         return source
                 .collect(Collector.of(
-                        () -> new Object[]{0, BigDecimal.ZERO, BigDecimal.ZERO},
-                        (ll, i) -> {
-                            int l = (int) ll[0];
-                            ll[0] = l + 1;
-                            ll[1] = ((BigDecimal) ll[1]).add(i.remainder());
-                            ll[2] = ((BigDecimal) ll[2]).add(i.spending());
-                        },
-                        (ll, rr) -> {
-                            int left = (int) ll[0];
-                            ll[0] = left + (int) rr[0];
-                            ll[1] = ((BigDecimal) ll[1]).add((BigDecimal) rr[1]);
-                            ll[2] = ((BigDecimal) ll[2]).add((BigDecimal) rr[2]);
-                            return ll;
-                        }
+                        PeriodStatistic.Builder::new,
+                        (b, i) -> b.add(i.remainder(), i.spending()),
+                        PeriodStatistic.Builder::add
                 ))
-                .map(args -> PeriodStatistic.of((int) args[0], (BigDecimal) args[1], (BigDecimal) args[2]));
+                .map(PeriodStatistic.Builder::build);
     }
 
     @SuppressWarnings("unchecked")
     static StatisticView combineUserAdvice(Object[] args) {
         PeriodStatistic periodStatistic = (PeriodStatistic) args[0];
-        BigDecimal totalAverageReminder = periodStatistic.getTotalAverageReminder();
+        BigDecimal reminderDeviation = periodStatistic.getReminderDeviation();
+        BigDecimal totalAverageReminder = periodStatistic.getAverageReminder();
+        BigDecimal totalAverageSpending = periodStatistic.getAverageSpending();
         BigDecimal lastReminder = (BigDecimal) args[1];
-        BigDecimal plannedReminder = ((BigDecimal) args[2]).subtract(periodStatistic.getTotalAverageSpending());
+        BigDecimal plannedReminder = ((BigDecimal) args[2])
+                .subtract(periodStatistic.getAverageSpending());
         BigDecimal saveToSpend = plannedReminder.compareTo(totalAverageReminder) > 0
-                ? totalAverageReminder
-                .subtract(plannedReminder)
-                .divide(BigDecimal.valueOf(2), BigDecimal.ROUND_CEILING)
-                .add(periodStatistic.getTotalAverageReminder())
+                ? plannedReminder.subtract(reminderDeviation)
                 : plannedReminder;
 
         return StatisticView.of(
                 totalAverageReminder,
+                totalAverageSpending,
                 lastReminder,
                 plannedReminder,
                 saveToSpend

@@ -1,0 +1,7 @@
+version: '1'
+services:
+    tardis-advisor-mongodb:
+        container_name: tardis-advisor-mongodb
+        image: mongo
+        ports:
+            - 27017:27017

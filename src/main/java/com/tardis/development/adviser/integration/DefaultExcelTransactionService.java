@@ -1,6 +1,6 @@
-package com.tardis.development.adviser.domain.transaction.integration;
+package com.tardis.development.adviser.integration;
 
-import com.tardis.development.adviser.domain.transaction.Transaction;
+import com.tardis.development.adviser.domain.transaction.ExcelTransactionDTO;
 import com.tardis.development.adviser.domain.transaction.Type;
 import lombok.SneakyThrows;
 import org.apache.poi.ss.usermodel.Cell;
@@ -23,7 +23,7 @@ public class DefaultExcelTransactionService implements ExcelTransactionService {
 
     @Override
     @SneakyThrows
-    public Flux<Transaction> list(File file) {
+    public Flux<ExcelTransactionDTO> list(File file) {
         FileInputStream excelFile = new FileInputStream(file);
         Workbook workbook = new XSSFWorkbook(excelFile);
 
@@ -36,7 +36,7 @@ public class DefaultExcelTransactionService implements ExcelTransactionService {
                 );
     }
 
-    private Transaction transformToTransaction(String user, Row row) {
+    private ExcelTransactionDTO transformToTransaction(String user, Row row) {
         double debitAmount = row.getCell(3).getNumericCellValue();
         double creditAmount = row.getCell(4).getNumericCellValue();
         boolean isCredit = debitAmount == 0d;
@@ -47,7 +47,7 @@ public class DefaultExcelTransactionService implements ExcelTransactionService {
                 ? Integer.parseInt(cell.getStringCellValue())
                 : (int) cell.getNumericCellValue();
 
-        return new Transaction(
+        return ExcelTransactionDTO.of(
                 user,
                 row.getCell(0).getDateCellValue().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
                 type,

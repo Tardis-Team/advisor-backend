@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @Document
 @Immutable
 @RequiredArgsConstructor(onConstructor = @__(@PersistenceConstructor))
-public class Transaction {
+class Transaction {
 
     @Id
     @Getter(AccessLevel.NONE)

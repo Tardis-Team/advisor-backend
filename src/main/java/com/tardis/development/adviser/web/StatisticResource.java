@@ -17,9 +17,9 @@ public class StatisticResource {
 
     private final @NonNull StatisticService service;
 
-    @GetMapping("/")
+    @GetMapping
     public Mono<StatisticView> calculate(@PathVariable("username") String username) {
+
         return service.calculateSaveToSpendAmount(username);
     }
-
 }

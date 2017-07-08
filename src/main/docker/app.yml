@@ -1,0 +1,15 @@
+version: '1'
+services:
+  tardis-advisor-app:
+    image: tardis-advisor
+    external_links:
+        - tardis-advisor-mongodb:mongo
+    environment:
+        - SPRING_PROFILES_ACTIVE=prod
+        - SPRING_DATA_MONGODB_HOST=mongo
+    ports:
+        - 8080:8080
+  tardis-advisor-mongodb:
+    extends:
+        file: mongodb.yml
+        service: tardis-advisor-mongodb

@@ -1,8 +1,7 @@
-package com.tardis.development.adviser.domain.payment;
+package com.tardis.development.adviser.domain.transaction;
 
-import lombok.Data;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import com.mongodb.annotations.Immutable;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -12,15 +11,22 @@ import java.time.LocalDate;
 
 @Data
 @Document
+@Immutable
 @RequiredArgsConstructor(onConstructor = @__(@PersistenceConstructor))
-class Payment {
+class CappedTransaction {
 
     @Id
+    @Getter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
     private String id;
+
     private final @NonNull String user;
-    private final @NonNull String description;
+
+    private final @NonNull LocalDate date;
+
+    private final @NonNull Type type;
+
     private final @NonNull BigDecimal amount;
-    private final @NonNull Period frequency;
-    private final @NonNull LocalDate dueDate;
-    private final @NonNull State state;
+
+    private final @NonNull Integer categoryCode;
 }
