@@ -20,14 +20,14 @@ class DefaultAdviseService implements AdviseService {
     public Flux<AdviseDTO> listAllOrderedByRelevance(String username) {
         return repository.findAll()
                 .flatMap(ad -> transactions.countAllInCategory(username, ad.getForMCCs())
-                        .map(r -> AdviseDTO.of(r, ad.getType(), ad.getCategory(), ad.getDescription(), ad.getImageLink())))
+                        .map(r -> AdviseDTO.of(r, ad.getType(), ad.getCategory(), ad.getTitle(), ad.getDescription(), ad.getImageLink())))
                 .sort(Comparator.comparing(AdviseDTO::getRelevance).reversed());
     }
 
     @Override
     public Mono<Void> add(String username, Mono<AddAdviseDTO> advise) {
         return advise
-                .map(aad -> new Advise(aad.getForMCCs(), aad.getType(), aad.getCategory(), aad.getDescription(), aad.getImageLink()))
+                .map(aad -> new Advise(aad.getForMCCs(), aad.getType(), aad.getCategory(), aad.getTitle(), aad.getDescription(), aad.getImageLink()))
                 .flatMap(repository::save)
                 .then();
     }
