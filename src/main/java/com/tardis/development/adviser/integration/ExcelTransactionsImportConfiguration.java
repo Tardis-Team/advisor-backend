@@ -22,7 +22,11 @@ public class ExcelTransactionsImportConfiguration {
 
                 if (resource.exists()) {
                     importService.list(resource.getFile())
-                            .map(t -> service.add(t).block())
+                            .map(t -> {
+                                service.add(t).block();
+
+                                return 1;
+                            })
                             .subscribe(v -> { }, e -> { });
                 }
             }

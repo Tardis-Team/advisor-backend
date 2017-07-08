@@ -36,7 +36,7 @@ final class Operators {
                 .subtract(periodStatistic.getAverageSpending());
         BigDecimal saveToSpend = plannedReminder.compareTo(totalAverageReminder) > 0
                 ? plannedReminder.subtract(reminderDeviation)
-                : plannedReminder;
+                : plannedReminder.add(reminderDeviation);
 
         return StatisticView.of(
                 totalAverageReminder,
